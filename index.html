@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Conversion Calculator</title>
+    <title>Kalkulator Konversi Waktu</title>
     <style>
         :root {
             --primary-color: #2ecc71;
@@ -31,10 +31,10 @@
         h1 {
             text-align: center;
             color: var(--primary-color);
-            font-size: 32px;
+            font-size: 28px;
             margin-bottom: 30px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
         .input-group {
             margin-bottom: 25px;
@@ -114,7 +114,7 @@
                 font-size: 24px;
             }
             input[type="number"], select, button {
-                font-size: 14px;
+                font-size: 16px;
             }
             #result {
                 padding: 15px;
@@ -127,24 +127,24 @@
 </head>
 <body>
     <div class="container">
-        <h1>Time Converter</h1>
+        <h1>Konversi Waktu</h1>
         <div class="input-group">
-            <label for="inputValue">Enter value:</label>
-            <input type="number" id="inputValue" placeholder="Enter a number" step="any">
+            <label for="inputValue">Masukkan nilai:</label>
+            <input type="number" id="inputValue" placeholder="Masukkan angka" step="any">
         </div>
         <div class="input-group">
-            <label for="inputUnit">Select input unit:</label>
+            <label for="inputUnit">Pilih satuan input:</label>
             <select id="inputUnit">
-                <option value="years">Years</option>
-                <option value="months">Months</option>
-                <option value="weeks">Weeks</option>
-                <option value="days">Days</option>
-                <option value="hours">Hours</option>
-                <option value="minutes">Minutes</option>
-                <option value="seconds">Seconds</option>
+                <option value="years">Tahun</option>
+                <option value="months">Bulan</option>
+                <option value="weeks">Minggu</option>
+                <option value="days">Hari</option>
+                <option value="hours">Jam</option>
+                <option value="minutes">Menit</option>
+                <option value="seconds">Detik</option>
             </select>
         </div>
-        <button onclick="convertTime()">Convert Time</button>
+        <button onclick="convertTime()">Konversi Waktu</button>
         <div id="result"></div>
     </div>
 
@@ -155,11 +155,11 @@
             const resultDiv = document.getElementById('result');
 
             if (isNaN(inputValue) || inputValue < 0) {
-                resultDiv.innerHTML = '<p style="color: red;">Please enter a valid positive number.</p>';
+                resultDiv.innerHTML = '<p style="color: red;">Mohon masukkan angka positif yang valid.</p>';
                 return;
             }
 
-            // Convert to seconds first
+            // Konversi ke detik terlebih dahulu
             let totalSeconds;
             switch (inputUnit) {
                 case 'years':
@@ -199,14 +199,14 @@
             const seconds = Math.floor(totalSeconds % 60);
 
             resultDiv.innerHTML = `
-                <h3 style="color: var(--primary-color); margin-top: 0;">Result:</h3>
-                <div class="result-item"><span class="result-label">Years:</span> <span>${years}</span></div>
-                <div class="result-item"><span class="result-label">Months:</span> <span>${months}</span></div>
-                <div class="result-item"><span class="result-label">Weeks:</span> <span>${weeks}</span></div>
-                <div class="result-item"><span class="result-label">Days:</span> <span>${days}</span></div>
-                <div class="result-item"><span class="result-label">Hours:</span> <span>${hours}</span></div>
-                <div class="result-item"><span class="result-label">Minutes:</span> <span>${minutes}</span></div>
-                <div class="result-item"><span class="result-label">Seconds:</span> <span>${seconds}</span></div>
+                <h3 style="color: var(--primary-color); margin-top: 0;">Hasil:</h3>
+                <div class="result-item"><span class="result-label">Tahun:</span> <span>${years}</span></div>
+                <div class="result-item"><span class="result-label">Bulan:</span> <span>${months}</span></div>
+                <div class="result-item"><span class="result-label">Minggu:</span> <span>${weeks}</span></div>
+                <div class="result-item"><span class="result-label">Hari:</span> <span>${days}</span></div>
+                <div class="result-item"><span class="result-label">Jam:</span> <span>${hours}</span></div>
+                <div class="result-item"><span class="result-label">Menit:</span> <span>${minutes}</span></div>
+                <div class="result-item"><span class="result-label">Detik:</span> <span>${seconds}</span></div>
             `;
         }
     </script>
