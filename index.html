@@ -5,79 +5,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Conversion Calculator</title>
     <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --result-bg-color: #e8f6e9;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
         .container {
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: var(--primary-color);
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color);
         }
-        input[type="number"] {
+        input[type="number"], select {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
         }
         button {
             display: block;
             width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: #fff;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: #ffffff;
             border: none;
-            border-radius: 4px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         #result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e7f3fe;
-            border-radius: 4px;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--result-bg-color);
+            border-radius: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            input[type="number"], select, button {
+                font-size: 14px;
+            }
+            #result {
+                padding: 15px;
+            }
+            .result-item {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Time Conversion Calculator</h1>
+        <h1>Time Converter</h1>
         <div class="input-group">
             <label for="inputValue">Enter value:</label>
-            <input type="number" id="inputValue" placeholder="Enter a number">
+            <input type="number" id="inputValue" placeholder="Enter a number" step="any">
         </div>
         <div class="input-group">
             <label for="inputUnit">Select input unit:</label>
             <select id="inputUnit">
                 <option value="years">Years</option>
                 <option value="months">Months</option>
+                <option value="weeks">Weeks</option>
                 <option value="days">Days</option>
                 <option value="hours">Hours</option>
                 <option value="minutes">Minutes</option>
                 <option value="seconds">Seconds</option>
             </select>
         </div>
-        <button onclick="convertTime()">Convert</button>
+        <button onclick="convertTime()">Convert Time</button>
         <div id="result"></div>
     </div>
 
@@ -88,10 +155,11 @@
             const resultDiv = document.getElementById('result');
 
             if (isNaN(inputValue) || inputValue < 0) {
-                resultDiv.innerHTML = 'Please enter a valid positive number.';
+                resultDiv.innerHTML = '<p style="color: red;">Please enter a valid positive number.</p>';
                 return;
             }
 
+            // Convert to seconds first
             let totalSeconds;
             switch (inputUnit) {
                 case 'years':
@@ -99,6 +167,9 @@
                     break;
                 case 'months':
                     totalSeconds = inputValue * 30 * 24 * 60 * 60;
+                    break;
+                case 'weeks':
+                    totalSeconds = inputValue * 7 * 24 * 60 * 60;
                     break;
                 case 'days':
                     totalSeconds = inputValue * 24 * 60 * 60;
@@ -118,6 +189,8 @@
             totalSeconds %= (365 * 24 * 60 * 60);
             const months = Math.floor(totalSeconds / (30 * 24 * 60 * 60));
             totalSeconds %= (30 * 24 * 60 * 60);
+            const weeks = Math.floor(totalSeconds / (7 * 24 * 60 * 60));
+            totalSeconds %= (7 * 24 * 60 * 60);
             const days = Math.floor(totalSeconds / (24 * 60 * 60));
             totalSeconds %= (24 * 60 * 60);
             const hours = Math.floor(totalSeconds / (60 * 60));
@@ -126,13 +199,14 @@
             const seconds = Math.floor(totalSeconds % 60);
 
             resultDiv.innerHTML = `
-                <h3>Result:</h3>
-                <p>Years: ${years}</p>
-                <p>Months: ${months}</p>
-                <p>Days: ${days}</p>
-                <p>Hours: ${hours}</p>
-                <p>Minutes: ${minutes}</p>
-                <p>Seconds: ${seconds}</p>
+                <h3 style="color: var(--primary-color); margin-top: 0;">Result:</h3>
+                <div class="result-item"><span class="result-label">Years:</span> <span>${years}</span></div>
+                <div class="result-item"><span class="result-label">Months:</span> <span>${months}</span></div>
+                <div class="result-item"><span class="result-label">Weeks:</span> <span>${weeks}</span></div>
+                <div class="result-item"><span class="result-label">Days:</span> <span>${days}</span></div>
+                <div class="result-item"><span class="result-label">Hours:</span> <span>${hours}</span></div>
+                <div class="result-item"><span class="result-label">Minutes:</span> <span>${minutes}</span></div>
+                <div class="result-item"><span class="result-label">Seconds:</span> <span>${seconds}</span></div>
             `;
         }
     </script>
