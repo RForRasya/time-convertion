@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Conversion Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f3fe;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Time Conversion Calculator</h1>
+        <div class="input-group">
+            <label for="inputValue">Enter value:</label>
+            <input type="number" id="inputValue" placeholder="Enter a number">
+        </div>
+        <div class="input-group">
+            <label for="inputUnit">Select input unit:</label>
+            <select id="inputUnit">
+                <option value="years">Years</option>
+                <option value="months">Months</option>
+                <option value="days">Days</option>
+                <option value="hours">Hours</option>
+                <option value="minutes">Minutes</option>
+                <option value="seconds">Seconds</option>
+            </select>
+        </div>
+        <button onclick="convertTime()">Convert</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convertTime() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const inputUnit = document.getElementById('inputUnit').value;
+            const resultDiv = document.getElementById('result');
+
+            if (isNaN(inputValue) || inputValue < 0) {
+                resultDiv.innerHTML = 'Please enter a valid positive number.';
+                return;
+            }
+
+            let totalSeconds;
+            switch (inputUnit) {
+                case 'years':
+                    totalSeconds = inputValue * 365 * 24 * 60 * 60;
+                    break;
+                case 'months':
+                    totalSeconds = inputValue * 30 * 24 * 60 * 60;
+                    break;
+                case 'days':
+                    totalSeconds = inputValue * 24 * 60 * 60;
+                    break;
+                case 'hours':
+                    totalSeconds = inputValue * 60 * 60;
+                    break;
+                case 'minutes':
+                    totalSeconds = inputValue * 60;
+                    break;
+                case 'seconds':
+                    totalSeconds = inputValue;
+                    break;
+            }
+
+            const years = Math.floor(totalSeconds / (365 * 24 * 60 * 60));
+            totalSeconds %= (365 * 24 * 60 * 60);
+            const months = Math.floor(totalSeconds / (30 * 24 * 60 * 60));
+            totalSeconds %= (30 * 24 * 60 * 60);
+            const days = Math.floor(totalSeconds / (24 * 60 * 60));
+            totalSeconds %= (24 * 60 * 60);
+            const hours = Math.floor(totalSeconds / (60 * 60));
+            totalSeconds %= (60 * 60);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = Math.floor(totalSeconds % 60);
+
+            resultDiv.innerHTML = `
+                <h3>Result:</h3>
+                <p>Years: ${years}</p>
+                <p>Months: ${months}</p>
+                <p>Days: ${days}</p>
+                <p>Hours: ${hours}</p>
+                <p>Minutes: ${minutes}</p>
+                <p>Seconds: ${seconds}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
